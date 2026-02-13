@@ -3,6 +3,7 @@ from app.core.config import settings
 from typing import AsyncGenerator
 
 
+# Путь к базе данных, берется из файла .env
 DATABASE_URL = settings.database_url
 
 engine = create_async_engine(DATABASE_URL, echo=True)
