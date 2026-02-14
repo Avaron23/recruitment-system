@@ -5,6 +5,7 @@ from app.db.base import Base
 from typing import List
 
 
+# Модель кандидата
 class Candidate(Base):
     __tablename__ = "candidates"
 
@@ -18,4 +19,3 @@ class Candidate(Base):
     tests_score: Mapped[int] = mapped_column(Integer)
     desired_salary: Mapped[int] = mapped_column(Integer)
     recomendation_score: Mapped[int] = mapped_column(Integer)
-    #created_at: Mapped[DateTime] = mapped_column(DateTime, nullable=False)  

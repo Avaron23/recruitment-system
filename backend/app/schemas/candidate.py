@@ -13,6 +13,8 @@ class CandidateCreate(BaseModel):
     desired_salary: int
     recomendation_score: int
 
+    model_config = ConfigDict(from_attributes=True)
+
 class CandidateResponse(BaseModel):
     id: int
     name: str 

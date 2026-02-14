@@ -3,7 +3,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.candidate import CandidateResponse, CandidateCreate
 from app.db.db import get_db
 from app.services.candidate_service import CandidateService
-from app.models.candidate import Candidate
 
 
 router = APIRouter(prefix="/candidates", tags=["Candidates"])

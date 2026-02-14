@@ -5,7 +5,7 @@ from app.db.base import Base
 from typing import List
 
 
-# Модель Вакансии
+# Модель вакансии
 class Vacancy(Base):
     __tablename__ = "vacancies"
 
