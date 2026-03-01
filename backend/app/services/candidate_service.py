@@ -41,7 +41,7 @@ class CandidateService:
 
         # Проверка существует ли
         if not result:
-            raise HTTPException(status_code=404, detail="User not found!")
+            raise HTTPException(status_code=404, detail="Candidate not found!")
         
         # Если существует возвращаем 
         return result
