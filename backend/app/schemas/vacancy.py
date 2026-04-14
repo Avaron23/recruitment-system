@@ -6,7 +6,7 @@ class VacancyCreate(BaseModel):
     title: str 
     required_experience: int
     required_education: str
-    required_skills: list[str]
+    required_skills: List[str]
     min_resume_score: int
     min_interview_score: int
     min_tests_score: int
@@ -20,7 +20,7 @@ class VacancyResponse(BaseModel):
     title: str 
     required_experience: int
     required_education: str
-    required_skills: list[str]
+    required_skills: List[str]
     min_resume_score: int
     min_interview_score: int
     min_tests_score: int
