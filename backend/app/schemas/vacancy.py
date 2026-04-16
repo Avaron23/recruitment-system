@@ -7,11 +7,8 @@ class VacancyCreate(BaseModel):
     required_experience: int
     required_education: str
     required_skills: List[str]
-    min_resume_score: int
-    min_interview_score: int
-    min_tests_score: int
     salary_offer: int
-    min_recomendation_score: int 
+    relocation_required: bool
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -21,10 +18,7 @@ class VacancyResponse(BaseModel):
     required_experience: int
     required_education: str
     required_skills: List[str]
-    min_resume_score: int
-    min_interview_score: int
-    min_tests_score: int
     salary_offer: int
-    min_recomendation_score: int 
+    relocation_required: bool
 
     model_config = ConfigDict(from_attributes=True)

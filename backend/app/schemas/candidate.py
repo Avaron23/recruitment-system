@@ -7,11 +7,8 @@ class CandidateCreate(BaseModel):
     experience: int
     education: str 
     skills: List[str]
-    resume_score: int
-    interview_score: int
-    tests_score: int
     desired_salary: int
-    recomendation_score: int
+    can_relocate: bool
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -21,10 +18,7 @@ class CandidateResponse(BaseModel):
     experience: int
     education: str 
     skills: List[str]
-    resume_score: int
-    interview_score: int
-    tests_score: int
     desired_salary: int
-    recomendation_score: int
+    can_relocate: bool
 
     model_config = ConfigDict(from_attributes=True)

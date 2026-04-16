@@ -5,6 +5,7 @@ from app.models.candidate import Candidate
 from app.schemas.candidate import CandidateCreate, CandidateResponse
 from typing import List, Annotated
 
+
 class CandidateService:
 
 

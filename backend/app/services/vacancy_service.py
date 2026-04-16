@@ -8,6 +8,7 @@ from typing import List, Annotated
 
 class VacancyService:
 
+
     @staticmethod
     async def create_vacancy(data: VacancyCreate, db: AsyncSession) -> VacancyResponse:
         # Добавить вакансию в бд и вернуть его уже с айди

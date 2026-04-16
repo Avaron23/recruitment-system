@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String
+from sqlalchemy import Integer, String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import ARRAY 
 from app.db.base import Base
@@ -14,8 +14,5 @@ class Vacancy(Base):
     required_experience: Mapped[int] = mapped_column(Integer)
     required_education: Mapped[str] = mapped_column(String(50))
     required_skills: Mapped[List[str]] = mapped_column(ARRAY(String))
-    min_resume_score: Mapped[int] = mapped_column(Integer)
-    min_interview_score: Mapped[int] = mapped_column(Integer)
-    min_tests_score: Mapped[int] = mapped_column(Integer)
     salary_offer: Mapped[int] = mapped_column(Integer)
-    min_recomendation_score: Mapped[int] = mapped_column(Integer)
+    relocation_required: Mapped[bool] = mapped_column(Boolean)
