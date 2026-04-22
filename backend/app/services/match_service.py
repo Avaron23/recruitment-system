@@ -36,3 +36,12 @@ class MatchService:
         await db.commit()
 
         return MatchResponse.model_validate(db_match)
+    
+
+    @staticmethod
+    async def get_matches(db: AsyncSession) -> List[Match]:
+        # Получить все мэтчи из бд и вернуть их
+
+        result = await db.scalars(select(Match))
+
+        return result
