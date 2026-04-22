@@ -21,6 +21,7 @@ class MatchAlgorithm:
             total_score += skills_score * 0.35
         else:
             total_score += 0.30
+            matched_skills = set()
 
         # 3. Образование 0.15
         edu_map = {
@@ -46,6 +47,6 @@ class MatchAlgorithm:
         total_score += relocation_score * 0.10
 
         return{
-            "total_score": total_score,
-            "matched_skills": matched_skills
+            "total_score": int(round(total_score * 100)),
+            "matched_skills": list(matched_skills)
         }
