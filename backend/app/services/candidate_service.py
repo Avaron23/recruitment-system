@@ -35,7 +35,7 @@ class CandidateService:
     
 
     @staticmethod
-    async def get_candidate_by_id(candidate_id: Annotated[int, Path(description="ID кандидата", ge=1)], db: AsyncSession):
+    async def get_candidate_by_id(candidate_id: Annotated[int, Path(description="ID кандидата", ge=1)], db: AsyncSession) -> CandidateResponse:
         # Получить кандидата по его айди и вернуть его
 
         result = await db.scalar(select(Candidate).where(Candidate.id == candidate_id))
@@ -46,3 +46,20 @@ class CandidateService:
         
         # Если существует возвращаем 
         return result
+    
+
+    @staticmethod
+    async def delete_candidate_by_id(candidate_id: Annotated[int, Path(description="ID кандидата", ge=1)], db: AsyncSession):
+        # Удалить кандидата из бд
+
+        result = await db.scalar(select(Candidate).where(Candidate.id == candidate_id))
+
+        # Проверяем существует ли
+        if not result:
+            raise HTTPException(status_code=404, detail="Candidate not found!")
+        
+        # Если существует то удаляем
+        await db.delete(result)
+        await db.commit()
+
+        return {"message": f"Candidate {candidate_id} successfully deleted"}

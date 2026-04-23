@@ -1,10 +1,12 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.candidates import router as candidates_router
 from app.api.vacancies import router as vacancies_router
 from app.api.matches import router as matches_router
 
 
 app = FastAPI()
+
 
 app.include_router(candidates_router)
 app.include_router(vacancies_router)

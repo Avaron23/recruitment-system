@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Path
+from fastapi import APIRouter, Depends, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.candidate import CandidateResponse, CandidateCreate
 from app.db.db import get_db
@@ -32,3 +32,11 @@ async def get_candidate_by_id(candidate_id: Annotated[int, Path(description="ID 
 
     # Вызываем сервис для получения кандидата по его айди
     return await CandidateService.get_candidate_by_id(candidate_id, db)
+
+
+# DELETE запрос на удаления кандидата из БД по его айди
+@router.delete("/{candidate_id}", status_code=status.HTTP_200_OK)
+async def delete_candidate_by_id(candidate_id: Annotated[int, Path(description="ID кандидата", ge=1)], db: AsyncSession = Depends(get_db)):
+
+    # Вызываем сервис для удаления кандидата по его айди
+    return await CandidateService.delete_candidate_by_id(candidate_id, db)
