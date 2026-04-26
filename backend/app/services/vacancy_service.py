@@ -46,3 +46,20 @@ class VacancyService:
         
         # Если существует возвращаем 
         return result
+    
+
+    @staticmethod
+    async def delete_vacancy_by_id(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession):
+        # Удалить вакансию из бд
+
+        result = await db.scalar(select(Vacancy).where(Vacancy.id == vacancy_id))
+
+        # Проверяем существует ли
+        if not result:
+            raise HTTPException(status_code=404, detail="Vacancy not found!")
+        
+        # Если существует то удаляем
+        await db.delete(result)
+        await db.commit()
+
+        return {"message": f"Vacancy {vacancy_id} successfully deleted"}

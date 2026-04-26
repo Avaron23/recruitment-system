@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Path 
+from fastapi import APIRouter, Depends, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.vacancy import VacancyCreate, VacancyResponse
 from app.db.db import get_db
@@ -32,3 +32,11 @@ async def get_vacancy_by_id(vacancy_id: Annotated[int, Path(description="ID ва
 
     # Вызываем сервис по получению одной вакансии по её айди
     return await VacancyService.get_vacancy_by_id(vacancy_id, db)
+
+
+# DELETE запрос на удаления вакансии из БД по её айди
+@router.delete("/{vacancy_id}", status_code=status.HTTP_200_OK)
+async def delete_vacancy_by_id(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession = Depends(get_db)):
+
+    # Вызываем сервис для удаления вакансии по её айди
+    return await VacancyService.delete_vacancy_by_id(vacancy_id, db)
