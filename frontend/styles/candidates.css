@@ -1,0 +1,21 @@
+main{
+    display: block;
+    margin: 40px;
+    text-align: center;
+    height: fit-content;
+    border: solid 2px;
+}
+
+.candidates-table{
+    text-align: center;
+    max-width: 80%;
+    min-height: 60vh;
+    max-height: fit-content;
+    margin: 0 auto;
+    border: solid 2px red;
+}
+
+th{
+    padding: 15px;
+    border: solid 2px;
+}

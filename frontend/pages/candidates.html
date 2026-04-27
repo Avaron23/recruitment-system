@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/candidates.css">
+    <title>Recruitment System</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html">Главное</a>
+            <a href="./candidates.html">Кандидаты</a>
+            <a href="./vacancies.html">Вакансии</a>
+            <a href="./matches.html">Совпадения</a>
+        </nav>
+    </header>
+    <main>
+        <div class="candidates-table">
+            <table id="candidatesTable">
+            <h1>Таблица кандидатов</h1>
+            <thead>
+                    <tr>
+                        <th>id</th> 
+                        <th>Имя</th> 
+                        <th>Опыт</th>
+                        <th>Образование</th>
+                        <th>Навыки</th>
+                        <th>Желаемая зарплата</th>
+                        <th>Возможность переехать</th>
+                        <th>Изменить</th>
+                        <th>Удалить</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <button onclick="add_candidate()">Добавить кандидата</button>
+    </main>
+    <script src="../scripts/candidates.js"></script>
+</body>
+</html>
