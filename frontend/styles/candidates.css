@@ -3,7 +3,24 @@ main{
     margin: 40px;
     text-align: center;
     height: fit-content;
-    border: solid 2px;
+
+}
+
+.table {
+	width: 100%;
+	margin-bottom: 20px;
+	border: 1px solid #dddddd;
+	border-collapse: collapse; 
+}
+.table th {
+	font-weight: bold;
+	padding: 5px;
+	background: #efefef;
+	border: 1px solid #dddddd;
+}
+.table td {
+	border: 1px solid #dddddd;
+	padding: 5px;
 }
 
 .candidates-table{
@@ -12,10 +29,23 @@ main{
     min-height: 60vh;
     max-height: fit-content;
     margin: 0 auto;
-    border: solid 2px red;
 }
 
-th{
-    padding: 15px;
-    border: solid 2px;
+
+button{
+    float: right;
+}
+
+.edit-btn{
+    background-color: orange;
+}
+.edit-btn:hover{
+    background-color: rgb(197, 130, 5);
+}
+
+.delete-btn{
+    background-color: red;
+}
+.delete-btn:hover{
+    background-color: rgb(129, 2, 2);
 }

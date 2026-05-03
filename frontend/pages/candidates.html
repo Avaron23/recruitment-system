@@ -18,9 +18,9 @@
     </header>
     <main>
         <div class="candidates-table">
-            <table id="candidatesTable">
+            <table class="table" id="candidatesTable">
             <h1>Таблица кандидатов</h1>
-            <thead>
+                <thead>
                     <tr>
                         <th>id</th> 
                         <th>Имя</th> 
@@ -33,9 +33,12 @@
                         <th>Удалить</th>
                     </tr>
                 </thead>
+                <tbody>
+                    
+                </tbody>
             </table>
+            <button onclick="add_candidate()">Добавить кандидата</button>
         </div>
-        <button onclick="add_candidate()">Добавить кандидата</button>
     </main>
     <script src="../scripts/candidates.js"></script>
 </body>

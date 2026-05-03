@@ -7,16 +7,12 @@ h1{
 
 .about{
     max-width: 80%;
-    max-height: fit-content;
     margin: 0 auto;
 }
 
 main{
     display: block;
-    border: solid 2px;
-    margin-left: 10%;
-    margin-right: 10%;
-    height: 80vh;
-    background-color: antiquewhite;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
