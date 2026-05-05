@@ -37,6 +37,44 @@
                     
                 </tbody>
             </table>
+
+            <!-- Добавь это -->
+            <div class="overlay" id="formOverlay">
+                <div class="form-container">
+                    <h2>Добавить кандидата</h2>
+                    
+                    <label>Имя</label>
+                    <input type="text" id="formName" placeholder="Введите имя">
+                    
+                    <label>Опыт (лет)</label>
+                    <input type="number" id="formExperience" placeholder="0">
+                    
+                    <label>Образование</label>
+                    <select type="text" id="formEducation">
+                        <option value="Высшее профильное">Высшее профильное</option>
+                        <option value="Высшее непрофильное">Высшее непрофильное</option>
+                        <option value="Среднее">Среднее</option>
+                    </select>
+
+                    
+                    <label>Навыки</label>
+                    <input type="text" id="formSkills" placeholder="Python, SQL, Excel">
+                    
+                    <label>Желаемая зарплата</label>
+                    <input type="number" id="formSalary" placeholder="50000">
+                    
+                    <label>
+                        <input type="checkbox" id="formRelocation">
+                        Готов к переезду
+                    </label>
+                    
+                    <div class="form-buttons">
+                        <button type="button" id="formSubmit">Добавить</button>
+                        <button type="button" id="formCancel">Отмена</button>
+                    </div>
+                </div>
+            </div>
+
             <button onclick="add_candidate()">Добавить кандидата</button>
         </div>
     </main>
