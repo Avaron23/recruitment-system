@@ -25,9 +25,9 @@ class MatchAlgorithm:
 
         # 3. Образование 0.15
         edu_map = {
-            "higher_profile": 1.0, 
-            "higher_other": 0.6,
-            "secondary": 0.2
+            "Высшее профильное": 1.0, 
+            "Высшее непрофильное": 0.6,
+            "Среднее": 0.2
         }
         edu_score = edu_map.get(candidate.education, 0.0)   
         total_score += edu_score *0.15

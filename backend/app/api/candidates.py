@@ -40,3 +40,11 @@ async def delete_candidate_by_id(candidate_id: Annotated[int, Path(description="
 
     # Вызываем сервис для удаления кандидата по его айди
     return await CandidateService.delete_candidate_by_id(candidate_id, db)
+
+
+# PUT запрос на изменения кандидата по его айди
+@router.put("/{candidate_id}", response_model=CandidateResponse)
+async def edit_candidate_by_id(candidate: CandidateCreate, candidate_id: Annotated[int, Path(description="ID кандидата", ge = 1)], db: AsyncSession = Depends(get_db)):
+
+    # Вызываем сервис для изменения кандидата по его айди
+    return await CandidateService.edit_candidate_by_id(candidate, candidate_id, db)

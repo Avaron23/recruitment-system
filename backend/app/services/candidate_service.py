@@ -63,3 +63,23 @@ class CandidateService:
         await db.commit()
 
         return {"message": f"Candidate {candidate_id} successfully deleted"}
+    
+
+    @staticmethod
+    async def edit_candidate_by_id(data: CandidateCreate ,candidate_id: Annotated[int, Path(description="ID кандидата", ge=1)], db: AsyncSession):
+        # Изменить кандидата по айди
+
+        # Находим кандидата по айди
+        result = await db.scalar(select(Candidate).where(Candidate.id == candidate_id))
+        
+        if not result:
+            raise HTTPException(status_code=404, detail="Candidate not found!")
+        
+        # Обновляем поля кандидата
+        for field, value in data.model_dump().items():
+            setattr(result, field, value)
+
+        await db.commit()
+        await db.refresh(result)
+
+        return result
