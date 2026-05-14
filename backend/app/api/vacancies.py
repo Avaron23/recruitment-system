@@ -40,3 +40,11 @@ async def delete_vacancy_by_id(vacancy_id: Annotated[int, Path(description="ID �
 
     # Вызываем сервис для удаления вакансии по её айди
     return await VacancyService.delete_vacancy_by_id(vacancy_id, db)
+
+
+# PUT запрос на изменения вакансии по её айди
+@router.put("/{vacancy_id}", response_model=VacancyResponse)
+async def edit_vacancy_by_id(vacancy: VacancyCreate, vacancy_id: Annotated[int, Path(description="ID вакансии", ge = 1)], db: AsyncSession = Depends(get_db)):
+
+    # Вызываем сервис для изменения вакансии по её айди
+    return await VacancyService.edit_vacancy_by_id(vacancy, vacancy_id, db)

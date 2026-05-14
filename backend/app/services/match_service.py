@@ -45,3 +45,22 @@ class MatchService:
         result = await db.scalars(select(Match))
 
         return result
+
+
+    @staticmethod
+    async def delete_match(
+        candidate_id: Annotated[int, Path(description="ID кандидата", ge=1)],
+        vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)],
+        db: AsyncSession
+    ):
+        
+        # Находим мэтч
+        result = await db.scalar(select(Match).where(Match.candidate_id == candidate_id, Match.vacancy_id == vacancy_id))
+
+        if not result:
+            raise HTTPException(status_code=404, detail="Match not found!")
+        
+        await db.delete(result)
+        await db.commit()
+
+        return {"message": f"Match was successfully deleted"}

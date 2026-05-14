@@ -63,3 +63,24 @@ class VacancyService:
         await db.commit()
 
         return {"message": f"Vacancy {vacancy_id} successfully deleted"}
+    
+
+
+    @staticmethod
+    async def edit_vacancy_by_id(data: VacancyCreate, vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession):
+        # Изменить вакансию по айди
+
+        # Находим вакансию по айди
+        result = await db.scalar(select(Vacancy).where(Vacancy.id == vacancy_id))
+        
+        if not result:
+            raise HTTPException(status_code=404, detail="Vacancy not found!")
+        
+        # Обновляем поля вакансии
+        for field, value in data.model_dump().items():
+            setattr(result, field, value)
+
+        await db.commit()
+        await db.refresh(result)
+
+        return result
