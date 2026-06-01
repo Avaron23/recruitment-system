@@ -1,6 +1,9 @@
 // TODO: Получить кандидатов через гет запрос, отрисовать их в таблице, обработать кнопку добавления кандидата
 const API_URL = "http://127.0.0.1:8000/vacancies/"
+const MATCHES_API = "http://127.0.0.1:8000/matches/"
 
+// Переменная для отслеживания режима редактирования
+let editingVacancyId = null
 
 window.addEventListener("DOMContentLoaded", () => {
     loadVacancies()
@@ -55,12 +58,32 @@ function createRow(vacancy){
 
     // Изменение вакансии по кнопке
     tr.querySelector('.edit-btn').addEventListener('click', ()=>{
-        alert("Еще не готово!")
+        editVacancy(vacancy);
     });
 
     return tr
 }
 
+
+function editVacancy(vacancy) {
+    editingVacancyId = vacancy.id
+    
+    // Заполняем форму данными вакансии
+    document.getElementById('formTitle').value = vacancy.title
+    document.getElementById('formExperience').value = vacancy.required_experience
+    document.getElementById('formEducation').value = vacancy.required_education
+    document.getElementById('formSkills').value = Array.isArray(vacancy.required_skills) 
+        ? vacancy.required_skills.join(', ') 
+        : vacancy.required_skills
+    document.getElementById('formSalary').value = vacancy.salary_offer
+    document.getElementById('formRelocation').checked = vacancy.relocation_required
+    
+    // Меняем текст кнопки отправки
+    document.getElementById('formSubmit').textContent = 'Сохранить изменения'
+    
+    // Показываем форму
+    document.getElementById('formOverlay').style.display = 'flex'
+}
 
 async function deleteVacancy(vacancyId){
     if (!confirm(`Удалить вакансию ${vacancyId}?`)) return
@@ -74,6 +97,36 @@ async function deleteVacancy(vacancyId){
     }
 }
 
+// Удалить все матчи связанные с вакансией
+async function deleteMatchesByVacancyId(vacancyId) {
+    try {
+        console.log('Начало удаления матчей для вакансии:', vacancyId)
+        const response = await fetch(MATCHES_API)
+        if (!response.ok) {
+            console.error('Ошибка при загрузке матчей:', response.status)
+            return
+        }
+        
+        const matches = await response.json()
+        console.log('Все матчи:', matches)
+        
+        const vacancyMatches = matches.filter(match => match.vacancy_id === vacancyId)
+        console.log('Матчи вакансии к удалению:', vacancyMatches)
+        
+        for (const match of vacancyMatches) {
+            console.log('Удаление матча:', match.candidate_id, match.vacancy_id)
+            const deleteUrl = `${MATCHES_API}${match.candidate_id}/${match.vacancy_id}`
+            console.log('URL удаления:', deleteUrl)
+            const deleteResponse = await fetch(deleteUrl, { method: 'DELETE' })
+            console.log('Ответ удаления матча:', deleteResponse.status)
+        }
+        
+        console.log('Удаление матчей завершено')
+    } catch (error) {
+        console.error('Ошибка удаления матчей:', error)
+    }
+}
+
 
 // Показать форму
 function add_vacancy() {
@@ -84,12 +137,15 @@ function add_vacancy() {
 function hideForm() {
     document.getElementById('formOverlay').style.display = 'none'
     clearForm()
+    editingVacancyId = null
+    document.getElementById('formSubmit').textContent = 'Добавить'
 }
 
 // Очистить все поля
 function clearForm() {
     document.getElementById('formTitle').value = ''
     document.getElementById('formExperience').value = ''
+    document.getElementById('formEducation').value = ''
     document.getElementById('formSkills').value = ''
     document.getElementById('formSalary').value = ''
     document.getElementById('formRelocation').checked = false
@@ -125,8 +181,17 @@ function setupForm(){
 
         // Отправляем запрос
         try{
-            const response = await fetch(API_URL, {
-                method: 'POST',
+            const method = editingVacancyId ? 'PUT' : 'POST'
+            const url = editingVacancyId ? `${API_URL}${editingVacancyId}` : API_URL
+            const successMessage = editingVacancyId ? 'Вакансия успешно обновлена!' : 'Вакансия успешно добавлена!'
+            
+            // Если редактируем - удаляем старые матчи
+            if (editingVacancyId) {
+                await deleteMatchesByVacancyId(editingVacancyId)
+            }
+            
+            const response = await fetch(url, {
+                method: method,
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             })
@@ -137,12 +202,13 @@ function setupForm(){
                 return
             }
 
+            alert(successMessage)
             hideForm()
             loadVacancies()
 
         }catch(error){
             console.log(error)
-            alert('Не удалось создать вакансию!')
+            alert(editingVacancyId ? 'Не удалось обновить вакансию!' : 'Не удалось создать вакансию!')
         }
     })
 }

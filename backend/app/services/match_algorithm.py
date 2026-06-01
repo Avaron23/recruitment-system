@@ -11,8 +11,11 @@ class MatchAlgorithm:
         total_score = 0
 
         # 1. Опыт 0.30
-        exp_score = min(candidate.experience / vacancy.required_experience, 1.0)
-        total_score += exp_score * 0.30
+        if vacancy.required_experience == 0:
+            total_score += 0.30
+        else:
+            exp_score = min(candidate.experience / vacancy.required_experience, 1.0)
+            total_score += exp_score * 0.30
 
         # 2. Навыки (совпадение) 0.35
         if vacancy.required_skills:
@@ -20,7 +23,7 @@ class MatchAlgorithm:
             skills_score = len(matched_skills) / len(vacancy.required_skills)
             total_score += skills_score * 0.35
         else:
-            total_score += 0.30
+            total_score += 0.35
             matched_skills = set()
 
         # 3. Образование 0.15
@@ -29,8 +32,14 @@ class MatchAlgorithm:
             "Высшее непрофильное": 0.6,
             "Среднее": 0.2
         }
-        edu_score = edu_map.get(candidate.education, 0.0)   
-        total_score += edu_score *0.15
+        if vacancy.required_education == "Высшее профильное":
+            edu_score = edu_map.get(candidate.education, 0.0)   
+            total_score += edu_score *0.15
+        elif vacancy.required_education == "Высшее непрофильное":
+            if candidate.education == "Среднее":
+                total_score += 0.6 * 0.15
+        else: 
+            total_score += 0.15
 
         # 4. Зарплата 0.10
         if candidate.desired_salary <= vacancy.salary_offer:

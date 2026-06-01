@@ -1,6 +1,9 @@
 // TODO: Получить кандидатов через гет запрос, отрисовать их в таблице, обработать кнопку добавления кандидата
 const API_URL = "http://127.0.0.1:8000/candidates/"
+const MATCHES_API = "http://127.0.0.1:8000/matches/"
 
+// Переменная для отслеживания режима редактирования
+let editingCandidateId = null
 
 window.addEventListener("DOMContentLoaded", () => {
     loadCandidates()
@@ -55,12 +58,31 @@ function createRow(candidate){
 
     // Изменение кандидата по кнопке
     tr.querySelector('.edit-btn').addEventListener('click', ()=>{
-        alert("Еще не готово!")
+        editCandidate(candidate);
     });
 
     return tr
 }
 
+function editCandidate(candidate) {
+    editingCandidateId = candidate.id
+    
+    // Заполняем форму данными кандидата
+    document.getElementById('formName').value = candidate.name
+    document.getElementById('formExperience').value = candidate.experience
+    document.getElementById('formEducation').value = candidate.education
+    document.getElementById('formSkills').value = Array.isArray(candidate.skills) 
+        ? candidate.skills.join(', ') 
+        : candidate.skills
+    document.getElementById('formSalary').value = candidate.desired_salary
+    document.getElementById('formRelocation').checked = candidate.can_relocate
+    
+    // Меняем текст кнопки отправки
+    document.getElementById('formSubmit').textContent = 'Сохранить изменения'
+    
+    // Показываем форму
+    document.getElementById('formOverlay').style.display = 'flex'
+}
 
 async function deleteCandidate(candidateId){
     if (!confirm(`Удалить кандидата ${candidateId}?`)) return
@@ -74,6 +96,36 @@ async function deleteCandidate(candidateId){
     }
 }
 
+// Удалить все матчи связанные с кандидатом
+async function deleteMatchesByCandidateId(candidateId) {
+    try {
+        console.log('Начало удаления матчей для кандидата:', candidateId)
+        const response = await fetch(MATCHES_API)
+        if (!response.ok) {
+            console.error('Ошибка при загрузке матчей:', response.status)
+            return
+        }
+        
+        const matches = await response.json()
+        console.log('Все матчи:', matches)
+        
+        const candidateMatches = matches.filter(match => match.candidate_id === candidateId)
+        console.log('Матчи кандидата к удалению:', candidateMatches)
+        
+        for (const match of candidateMatches) {
+            console.log('Удаление матча:', match.candidate_id, match.vacancy_id)
+            const deleteUrl = `${MATCHES_API}${match.candidate_id}/${match.vacancy_id}`
+            console.log('URL удаления:', deleteUrl)
+            const deleteResponse = await fetch(deleteUrl, { method: 'DELETE' })
+            console.log('Ответ удаления матча:', deleteResponse.status)
+        }
+        
+        console.log('Удаление матчей завершено')
+    } catch (error) {
+        console.error('Ошибка удаления матчей:', error)
+    }
+}
+
 
 // Показать форму
 function add_candidate() {
@@ -84,12 +136,15 @@ function add_candidate() {
 function hideForm() {
     document.getElementById('formOverlay').style.display = 'none'
     clearForm()
+    editingCandidateId = null
+    document.getElementById('formSubmit').textContent = 'Добавить'
 }
 
 // Очистить все поля
 function clearForm() {
     document.getElementById('formName').value = ''
     document.getElementById('formExperience').value = ''
+    document.getElementById('formEducation').value = ''
     document.getElementById('formSkills').value = ''
     document.getElementById('formSalary').value = ''
     document.getElementById('formRelocation').checked = false
@@ -125,8 +180,18 @@ function setupForm(){
 
         // Отправляем запрос
         try{
-            const response = await fetch(API_URL, {
-                method: 'POST',
+            const method = editingCandidateId ? 'PUT' : 'POST'
+            const url = editingCandidateId ? `${API_URL}${editingCandidateId}` : API_URL
+            const successMessage = editingCandidateId ? 'Кандидат успешно обновлён!' : 'Кандидат успешно добавлен!'
+            const errorMessage = editingCandidateId ? 'Не удалось обновить кандидата!' : 'Не удалось создать кандидата!'
+            
+            // Если редактируем - удаляем старые матчи
+            if (editingCandidateId) {
+                await deleteMatchesByCandidateId(editingCandidateId)
+            }
+            
+            const response = await fetch(url, {
+                method: method,
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             })
@@ -137,11 +202,12 @@ function setupForm(){
                 return
             }
 
+            alert(successMessage)
             hideForm()
             loadCandidates()
 
         }catch(error){
-            alert('Не удалось создать кандидата!')
+            alert(editingCandidateId ? 'Не удалось обновить кандидата!' : 'Не удалось создать кандидата!')
         }
     })
 }

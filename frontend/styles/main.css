@@ -1,27 +1,35 @@
 /* Базовые стили */
 body {
-    font-family:Comic Sans MS, Comic Sans, cursive;
+    font-family: Comic Sans MS, Comic Sans, cursive;
     margin: 0;
     padding: 0;
-    background: white;
+    background: #f5f6fa;
 }
 
 /* Навигация */
 nav {
     background: #2c3e50;
     padding: 2.5vh;
-    margin-bottom: 0px;
+    margin-bottom: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin: 0 15px;
-    padding: 5px;
+    margin: 0 20px;
+    padding: 8px 12px;
+    display: inline-block;
+    border-radius: 4px;
+    transition: background 0.2s;
+    font-weight: 500;
 }
 
+nav a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
 
-/* Кнопки */
+/* Кнопки базовые */
 button {
     background: #3498db;
     color: white;
@@ -29,9 +37,20 @@ button {
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+    transition: background 0.2s;
+    font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
 button:hover {
     background: #2980b9;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Заголовки */
+h1, h2, h3 {
+    color: #2c3e50;
 }
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/matches.css">
     <title>Recruitment System</title>
 </head>
 <body>
@@ -15,5 +16,40 @@
             <a href="./matches.html">Совпадения</a>
         </nav>
     </header>
+    <main>
+        <div class="matches-container">
+            <div class="matches-header">
+                <h1>Совпадения (Мэтчи)</h1>
+                <button class="btn-create-match" onclick="openMatchForm()">+ Создать матч</button>
+            </div>
+
+            <div class="matches-list" id="matchesList">
+                <!-- Карточки матчей будут добавляться сюда -->
+            </div>
+
+            <!-- Модальное окно для создания матча -->
+            <div class="overlay" id="matchFormOverlay">
+                <div class="form-container">
+                    <h2>Создать совпадение(мэтч)</h2>
+                    
+                    <label>Кандидат</label>
+                    <select id="formCandidate" required>
+                        <option value="">Выберите кандидата...</option>
+                    </select>
+
+                    <label>Вакансия</label>
+                    <select id="formVacancy" required>
+                        <option value="">Выберите вакансию...</option>
+                    </select>
+
+                    <div class="form-buttons">
+                        <button type="button" id="formSubmit" class="btn-submit">Создать</button>
+                        <button type="button" id="formCancel" class="btn-cancel">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../scripts/matches.js"></script>
 </body>
 </html>
