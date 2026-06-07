@@ -1,8 +1,9 @@
-from sqlalchemy import Integer, String, Boolean
+from sqlalchemy import Integer, String, Boolean, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import ARRAY 
 from app.db.base import Base
 from typing import List
+import datetime
 
 
 # Модель кандидата
@@ -16,3 +17,4 @@ class Candidate(Base):
     skills: Mapped[List[str]] = mapped_column(ARRAY(String))
     desired_salary: Mapped[int] = mapped_column(Integer)
     can_relocate: Mapped[bool] = mapped_column(Boolean)
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), default=datetime.datetime.now)

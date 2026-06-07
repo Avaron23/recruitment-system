@@ -64,3 +64,42 @@ class MatchService:
         await db.commit()
 
         return {"message": f"Match was successfully deleted"}
+    
+
+    @staticmethod
+    async def get_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession):
+
+        threshold: int = 70
+
+        # Проверяем существует ли вакансия
+        vacancy = await db.scalar(select(Vacancy).where(Vacancy.id == vacancy_id))
+        if not vacancy:
+            raise HTTPException(status_code=404, detail="Vacancy not found!")
+
+        # Получаем все мэтчи по вакансии с кандидатами
+        result = await db.execute(
+            select(Match, Candidate)
+            .join(Candidate, Match.candidate_id == Candidate.id)
+            .where(Match.vacancy_id == vacancy_id)
+            .order_by(Match.total_score.desc(), Candidate.created_at.asc())
+        )
+        rows = result.all()
+
+        # Присваиваем ранги
+        ranked = []
+        rank = 1
+        for match, candidate in rows:
+            passed = match.total_score >= threshold
+            ranked.append({
+                "candidate_id": candidate.id,
+                "candidate_name": candidate.name,
+                "vacancy_id": match.vacancy_id,
+                "total_score": match.total_score,
+                "matched_skills": match.matched_skills,
+                "rank": rank if passed else None,
+                "passed": passed
+            })
+            if passed:
+                rank += 1
+
+        return ranked

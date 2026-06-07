@@ -14,5 +14,6 @@ class Vacancy(Base):
     required_experience: Mapped[int] = mapped_column(Integer)
     required_education: Mapped[str] = mapped_column(String(50))
     required_skills: Mapped[List[str]] = mapped_column(ARRAY(String))
+    preferred_skills: Mapped[List[str]] = mapped_column(ARRAY(String))
     salary_offer: Mapped[int] = mapped_column(Integer)
     relocation_required: Mapped[bool] = mapped_column(Boolean)

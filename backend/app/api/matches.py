@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status, Path
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.match import MatchCreate, MatchResponse
+from app.schemas.match import MatchCreate, MatchResponse, RankedMatchResponse
 from app.db.db import get_db
 from app.services.match_service import MatchService
 from typing import List, Annotated
@@ -34,3 +34,11 @@ async def delete_match(
     db: AsyncSession = Depends(get_db)
 ):
     return await MatchService.delete_match(candidate_id, vacancy_id, db)
+
+
+# GET запрос на получение кандидатов по вакансии с рангами 
+@router.get("/{vacancy_id}", response_model=List[RankedMatchResponse])
+async def get_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession = Depends(get_db)):
+    
+    # Вызываем сервис по получение кандидатов по вакансии
+    return await MatchService.get_matches_by_vacancy(vacancy_id, db)

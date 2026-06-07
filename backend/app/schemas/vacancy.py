@@ -7,6 +7,7 @@ class VacancyCreate(BaseModel):
     required_experience: int
     required_education: str
     required_skills: List[str]
+    preferred_skills: List[str]
     salary_offer: int
     relocation_required: bool
 
@@ -18,6 +19,7 @@ class VacancyResponse(BaseModel):
     required_experience: int
     required_education: str
     required_skills: List[str]
+    preferred_skills: List[str]
     salary_offer: int
     relocation_required: bool
 
