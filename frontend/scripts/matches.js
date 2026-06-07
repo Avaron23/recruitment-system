@@ -179,7 +179,7 @@ function renderMatches() {
             </div>
 
             <div class="skills-section">
-                <div class="skills-label">Совпадённые навыки (${match.matched_skills.length} из ${vacancy.required_skills.length})</div>
+                <div class="skills-label">Совпадённые навыки (${match.matched_skills.length} из ${vacancy.required_skills.length + vacancy.preferred_skills.length})</div>
                 <div class="skills-tags">
                     ${skillsHtml}
                 </div>

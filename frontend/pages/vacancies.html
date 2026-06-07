@@ -18,15 +18,16 @@
     </header>
     <main>
         <div class="vacancies-table">
-            <table class="table" id="vacanciesTable">
             <h1>Таблица вакансий</h1>
+            <table class="table" id="vacanciesTable">
                 <thead>
                     <tr>
                         <th>id</th> 
                         <th>Название</th> 
                         <th>Требуемый опыт</th>
                         <th>Требуемое образование</th>
-                        <th>Требуемые навыки</th>
+                        <th>Обязательные навыки</th>
+                        <th>Желательные навыки</th>
                         <th>Зарплата</th>
                         <th>Требуемая готовность переехать</th>
                         <th>Изменить</th>
@@ -57,8 +58,11 @@
                     </select>
 
                     
-                    <label>Требуемые навыки</label>
+                    <label>Обязательные навыки</label>
                     <input type="text" id="formSkills" placeholder="Python, SQL, Excel">
+
+                    <label>Желательные навыки</label>
+                    <input type="text" id="formPrefSkills" placeholder="Git, HTML, js">
                     
                     <label>Зарплата</label>
                     <input type="number" min="0" max="10000000" id="formSalary" placeholder="50000">

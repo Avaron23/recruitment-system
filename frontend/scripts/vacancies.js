@@ -45,6 +45,7 @@ function createRow(vacancy){
         <td>${vacancy.required_experience}</td>
         <td>${vacancy.required_education}</td>
         <td>${vacancy.required_skills}</td>
+        <td>${vacancy.preferred_skills}</td>
         <td>${vacancy.salary_offer}</td>
         <td>${vacancy.relocation_required ? 'Да' : 'Нет'}</td>
         <td><button class="edit-btn">Изменить</button></td>
@@ -75,6 +76,9 @@ function editVacancy(vacancy) {
     document.getElementById('formSkills').value = Array.isArray(vacancy.required_skills) 
         ? vacancy.required_skills.join(', ') 
         : vacancy.required_skills
+    document.getElementById('formPrefSkills').value = Array.isArray(vacancy.preferred_skills) 
+        ? vacancy.preferred_skills.join(', ') 
+        : vacancy.preferred_skills
     document.getElementById('formSalary').value = vacancy.salary_offer
     document.getElementById('formRelocation').checked = vacancy.relocation_required
     
@@ -147,6 +151,7 @@ function clearForm() {
     document.getElementById('formExperience').value = ''
     document.getElementById('formEducation').value = ''
     document.getElementById('formSkills').value = ''
+    document.getElementById('formPrefSkills').value = ''
     document.getElementById('formSalary').value = ''
     document.getElementById('formRelocation').checked = false
 }
@@ -156,10 +161,16 @@ function setupForm(){
     document.getElementById('formCancel').addEventListener('click', hideForm)
 
     document.getElementById('formSubmit').addEventListener('click', async () => {
-        // Получаем строку навыков и превращаем в массив
+        // Получаем строку обязательных навыков и превращаем в массив
         const skillsRaw = document.getElementById('formSkills').value.toLowerCase().trim()
         const skillsArray = skillsRaw 
             ? skillsRaw.split(',').map(s => s.trim()).filter(s => s !== '') 
+            : []
+
+        // Получаем строку желательных навыков и превращаем в массив
+        const prefSkillsRaw = document.getElementById('formPrefSkills').value.toLowerCase().trim()
+        const prefSkillsArray = prefSkillsRaw 
+            ? prefSkillsRaw.split(',').map(s => s.trim()).filter(s => s !== '') 
             : []
 
 
@@ -168,6 +179,7 @@ function setupForm(){
             required_experience: parseInt(document.getElementById('formExperience').value) || 0,
             required_education: document.getElementById('formEducation').value.trim(),
             required_skills: skillsArray,
+            preferred_skills: prefSkillsArray,
             salary_offer: parseInt(document.getElementById('formSalary').value) || 0,
             relocation_required: document.getElementById('formRelocation').checked
         }
