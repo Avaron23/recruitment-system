@@ -17,3 +17,8 @@ class Vacancy(Base):
     preferred_skills: Mapped[List[str]] = mapped_column(ARRAY(String))
     salary_offer: Mapped[int] = mapped_column(Integer)
     relocation_required: Mapped[bool] = mapped_column(Boolean)
+    # Флаги обязательности
+    is_experience_mandatory: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_education_mandatory: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_salary_mandatory: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_relocation_mandatory: Mapped[bool] = mapped_column(Boolean, default=False)

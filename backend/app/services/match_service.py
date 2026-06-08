@@ -4,6 +4,7 @@ from fastapi import Path, HTTPException
 from app.models.match import Match
 from app.models.candidate import Candidate
 from app.models.vacancy import Vacancy
+from app.models.settings import AppSettings
 from app.schemas.match import MatchCreate, MatchResponse
 from app.services.match_algorithm import MatchAlgorithm
 from typing import List, Annotated
@@ -23,7 +24,13 @@ class MatchService:
             raise HTTPException(status_code=404, detail="Candidate or vacancy not found")
         
         # Вызвать алгоритм скорнинга
-        match_data = MatchAlgorithm.calculate_match(candidate, vacancy)
+        weights_data = await db.scalar(select(AppSettings).where(AppSettings.id == 1))
+
+        # Проверка существует ли
+        if not weights_data:
+            raise HTTPException(status_code=404, detail="Settings not found!")
+        
+        match_data = MatchAlgorithm.calculate_match(candidate, vacancy, weights_data)
 
         # Добавить в бд
         db_match = Match(
@@ -69,7 +76,14 @@ class MatchService:
     @staticmethod
     async def get_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession):
 
-        threshold: int = 70
+        # Получить порог
+        settings = await db.scalar(select(AppSettings).where(AppSettings.id == 1))
+
+        # Проверка существует ли
+        if not settings:
+            raise HTTPException(status_code=404, detail="Settings not found!")
+        
+        threshold: int = settings.threshold
 
         # Проверяем существует ли вакансия
         vacancy = await db.scalar(select(Vacancy).where(Vacancy.id == vacancy_id))
