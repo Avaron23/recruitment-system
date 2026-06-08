@@ -1,0 +1,388 @@
+main {
+    display: block;
+    margin: 40px;
+    text-align: center;
+    height: fit-content;
+    padding-bottom: 40px;
+}
+
+.ranking-container {
+    text-align: center;
+    max-width: 95%;
+    min-height: 60vh;
+    max-height: fit-content;
+    margin: 0 auto;
+}
+
+.ranking-container h1 {
+    text-align: left;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.vacancy-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.vacancy-selector label {
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.vacancy-selector select {
+    padding: 10px 15px;
+    border: 2px solid #34495e;
+    border-radius: 4px;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    min-width: 300px;
+    transition: border-color 0.2s;
+}
+
+.vacancy-selector select:hover {
+    border-color: #3498db;
+}
+
+.vacancy-selector select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* Результаты */
+.result-container {
+    margin-top: 20px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #7f8c8d;
+}
+
+.empty-state p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Таблица ранжирования */
+.ranking-table {
+    width: 100%;
+    margin-bottom: 30px;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.ranking-table th {
+    font-weight: bold;
+    padding: 15px 10px;
+    background: #34495e;
+    color: white;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+}
+
+.ranking-table td {
+    border: none;
+    padding: 12px 10px;
+    border-bottom: 1px solid #ecf0f1;
+    font-size: 13px;
+    color: #2c3e50;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.ranking-table tbody tr {
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.ranking-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.ranking-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Ранг */
+.rank {
+    font-weight: bold;
+    font-size: 16px;
+    color: #2c3e50;
+    background: #ecf0f1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin: 0 auto;
+}
+
+.rank.passed {
+    background: #27ae60;
+    color: white;
+}
+
+.rank.failed {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Имя кандидата */
+.candidate-name-cell {
+    text-align: left;
+    font-weight: bold;
+}
+
+.candidate-name-cell a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.candidate-name-cell a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Скор */
+.score-value {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
+    font-size: 14px;
+}
+
+.score-value.high {
+    background: #27ae60;
+}
+
+.score-value.medium {
+    background: #f39c12;
+}
+
+.score-value.low {
+    background: #e74c3c;
+}
+
+/* Навыки */
+.skills-cell {
+    text-align: left;
+}
+
+.skill-tag {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin: 2px;
+}
+
+.skill-tag.matched {
+    background: #27ae60;
+}
+
+.skills-count {
+    font-size: 12px;
+    color: #7f8c8d;
+}
+
+/* Кнопки действия */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.view-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+
+.view-btn:hover {
+    background: #2980b9;
+}
+
+/* Инфо о вакансии */
+.vacancy-info {
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.vacancy-info h2 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.vacancy-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    font-size: 13px;
+}
+
+.vacancy-info-label {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.vacancy-info-value {
+    color: #34495e;
+}
+
+/* Модальное окно */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin: 20px auto;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    padding: 0;
+}
+
+.close-btn:hover {
+    background: #c0392b;
+}
+
+/* Контент модального окна */
+.modal-content h2 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    border-bottom: 2px solid #34495e;
+    padding-bottom: 10px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.info-value {
+    color: #34495e;
+    text-align: right;
+    flex: 1;
+    margin-left: 20px;
+}
+
+.info-value.yes {
+    color: #27ae60;
+}
+
+.info-value.no {
+    color: #e74c3c;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.skill-item {
+    background: #3498db;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+/* Статус прохождения */
+.pass-status {
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.pass-status.passed {
+    background: #d5f4e6;
+    color: #27ae60;
+}
+
+.pass-status.failed {
+    background: #fadbd8;
+    color: #e74c3c;
+}

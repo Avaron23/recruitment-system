@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/ranking.css">
+    <title>Recruitment System</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html">Главное</a>
+            <a href="./candidates.html">Кандидаты</a>
+            <a href="./vacancies.html">Вакансии</a>
+            <a href="./matches.html">Совпадения</a>
+            <a href="./ranking.html">Ранжирование</a>
+        </nav>
+    </header>
+    <main>
+        <div class="ranking-container">
+            <h1>Ранжирование кандидатов</h1>
+            
+            <div class="controls">
+                <div class="vacancy-selector">
+                    <label for="vacancySelect">Выберите вакансию:</label>
+                    <select id="vacancySelect">
+                        <option value="">-- Загрузка вакансий --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="resultContainer" class="result-container">
+                <div class="empty-state">
+                    <p>📭 Выберите вакансию для просмотра ранжированных кандидатов</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно с информацией о кандидате -->
+        <div class="overlay" id="candidateModalOverlay">
+            <div class="modal-container">
+                <button class="close-btn" onclick="closeCandidateModal()">&times;</button>
+                <div id="candidateModalContent">
+                    <!-- Контент будет добавлен динамически -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно с информацией о вакансии -->
+        <div class="overlay" id="vacancyModalOverlay">
+            <div class="modal-container">
+                <button class="close-btn" onclick="closeVacancyModal()">&times;</button>
+                <div id="vacancyModalContent">
+                    <!-- Контент будет добавлен динамически -->
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../scripts/ranking.js"></script>
+</body>
+</html>
