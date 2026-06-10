@@ -29,7 +29,7 @@ class VacancyService:
     async def get_vacancies(db: AsyncSession) -> List[VacancyResponse]:
         # Получить все вакансии из БД и вернуть их
 
-        result = await db.scalars(select(Vacancy))
+        result = await db.scalars(select(Vacancy).order_by(Vacancy.id.asc()))
 
         return result
     

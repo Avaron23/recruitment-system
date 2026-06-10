@@ -42,3 +42,27 @@ async def get_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID
     
     # Вызываем сервис по получение кандидатов по вакансии
     return await MatchService.get_matches_by_vacancy(vacancy_id, db)
+
+
+# POST запрос на создание всех мэтчей по айди вакансии
+@router.post("/{vacancy_id}", response_model=List[MatchResponse])
+async def create_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession = Depends(get_db)):
+
+    # Вызываем сервис по созданию мэтчей для вакансии
+    return await MatchService.create_matches_by_vacancy(vacancy_id, db) 
+
+
+# DELETE запрос на удаление всех мэтчей
+@router.delete("/", status_code=status.HTTP_200_OK)
+async def delete_all_matches(db: AsyncSession = Depends(get_db)):
+
+    # Вызываем сервис по удалению всех мэтчей
+    return await MatchService.delete_all_matches(db)
+
+
+# DELETE запрос на удаление всех мэтчей по айди вакансии
+@router.delete("/{vacancy_id}", status_code=status.HTTP_200_OK)
+async def delete_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession = Depends(get_db)):
+
+    # Вызываем сервис по удаление всех мэтчей относящихся к вакансии
+    return await MatchService.delete_matches_by_vacancy(vacancy_id, db)

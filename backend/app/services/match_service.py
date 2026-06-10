@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from fastapi import Path, HTTPException
 from app.models.match import Match
 from app.models.candidate import Candidate
@@ -117,3 +117,75 @@ class MatchService:
                 rank += 1
 
         return ranked
+    
+
+    @staticmethod
+    async def create_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession) -> List[Match]:
+        # Создать мэтчи со всеми кандидатами по одной вакансии
+
+        # 1. Получить вакансию
+        vacancy = await db.scalar(select(Vacancy).where(Vacancy.id == vacancy_id))
+        if not vacancy:
+            raise HTTPException(status_code=404, detail="Vacancy not found")
+        
+        # 2. Получить всех кандидатов (список)
+        result = await db.execute(select(Candidate))
+        candidates = result.scalars().all()
+        if not candidates:
+            raise HTTPException(status_code=404, detail="No candidates found")
+        
+        # 3. Получить настройки весов
+        weights_data = await db.scalar(select(AppSettings).where(AppSettings.id == 1))
+        if not weights_data:
+            raise HTTPException(status_code=404, detail="Settings not found")
+        
+        # Удаляем старые мэтчи для этой вакансии
+        await db.execute(delete(Match).where(Match.vacancy_id == vacancy_id))
+
+        # 4. Подготовить список объектов Match
+        db_matches = []
+        for candidate in candidates:
+            match_data = MatchAlgorithm.calculate_match(candidate, vacancy, weights_data)
+            db_match = Match(
+                candidate_id=candidate.id,
+                vacancy_id=vacancy_id,
+                **match_data
+            )
+            db_matches.append(db_match)
+        
+        # 5. Добавить все одной операцией и один коммит
+        db.add_all(db_matches)
+        await db.commit()
+        
+        # 6. Обновить объекты (чтобы получить ID, если нужны)
+        for db_match in db_matches:
+            await db.refresh(db_match)
+        
+        # 7. Вернуть список Response схем
+        return [MatchResponse.model_validate(match) for match in db_matches]
+    
+
+    @staticmethod
+    async def delete_all_matches(db: AsyncSession):
+        # Удаляем все записи из таблицы matches
+
+        result = await db.execute(delete(Match))
+        await db.commit()
+        
+        if result.rowcount == 0:
+            raise HTTPException(status_code=404, detail="No matches found to delete")
+        
+        return {"message": f"{result.rowcount} matches successfully deleted"}
+    
+
+    @staticmethod
+    async def delete_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession):
+        # Удаляем все записи из таблицы matches по вакансии
+
+        result = await db.execute(delete(Match).where(Match.vacancy_id == vacancy_id))
+        await db.commit()
+        
+        if result.rowcount == 0:
+            raise HTTPException(status_code=404, detail="No matches found to delete")
+        
+        return {"message": f"{result.rowcount} matches successfully deleted"}

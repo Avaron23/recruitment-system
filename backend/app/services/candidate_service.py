@@ -29,7 +29,7 @@ class CandidateService:
     async def get_candidates(db: AsyncSession) -> List[CandidateResponse]:
         # Получить всех кандидатов из бд и вернуть их
 
-        result = await db.scalars(select(Candidate))
+        result = await db.scalars(select(Candidate).order_by(Candidate.id.asc()))
 
         return result
     
