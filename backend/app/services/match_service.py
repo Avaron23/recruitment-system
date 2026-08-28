@@ -121,12 +121,14 @@ class MatchService:
 
     @staticmethod
     async def create_matches_by_vacancy(vacancy_id: Annotated[int, Path(description="ID вакансии", ge=1)], db: AsyncSession) -> List[Match]:
+        # Создать мэтчи со всеми кандидатами по одной вакансии
+
         # 1. Получить вакансию
         vacancy = await db.scalar(select(Vacancy).where(Vacancy.id == vacancy_id))
         if not vacancy:
             raise HTTPException(status_code=404, detail="Vacancy not found")
         
-        # 2. Получить всех кандидатов
+        # 2. Получить всех кандидатов (список)
         result = await db.execute(select(Candidate))
         candidates = result.scalars().all()
         if not candidates:
@@ -139,35 +141,28 @@ class MatchService:
         
         # Удаляем старые мэтчи для этой вакансии
         await db.execute(delete(Match).where(Match.vacancy_id == vacancy_id))
-        
-        # 4. Пакетная вставка
-        batch_size = 500
-        all_matches = []           # для возврата всех мэтчей (можно не сохранять, если не нужно)
-        batch = []
-        
-        for i, candidate in enumerate(candidates):
+
+        # 4. Подготовить список объектов Match
+        db_matches = []
+        for candidate in candidates:
             match_data = MatchAlgorithm.calculate_match(candidate, vacancy, weights_data)
             db_match = Match(
                 candidate_id=candidate.id,
                 vacancy_id=vacancy_id,
                 **match_data
             )
-            batch.append(db_match)
-            all_matches.append(db_match)
-            
-            if len(batch) >= batch_size:
-                db.add_all(batch)
-                await db.commit()
-                # Очищаем текущий пакет
-                batch = []
+            db_matches.append(db_match)
         
-        # Добавляем оставшиеся записи (если есть)
-        if batch:
-            db.add_all(batch)
-            await db.commit()
+        # 5. Добавить все одной операцией и один коммит
+        db.add_all(db_matches)
+        await db.commit()
         
-        # Возвращаем список всех созданных мэтчей (опционально)
-        return [MatchResponse.model_validate(match) for match in all_matches]
+        # 6. Обновить объекты (чтобы получить ID, если нужны)
+        for db_match in db_matches:
+            await db.refresh(db_match)
+        
+        # 7. Вернуть список Response схем
+        return [MatchResponse.model_validate(match) for match in db_matches]
     
 
     @staticmethod
