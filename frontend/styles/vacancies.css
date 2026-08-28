@@ -128,42 +128,49 @@ main {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    overflow-y: auto;
+    padding: 20px 10px;
 }
 
 /* Белый блок формы */
 .form-container {
     background: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
+    width: 420px;
+    max-width: 95%;
+    max-height: calc(100vh - 100px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    margin: auto;
+    overflow-y: auto;
 }
 
 .form-container h2 {
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: #2c3e50;
+    font-size: 18px;
 }
 
 .form-container label {
     display: block;
-    margin-top: 15px;
-    margin-bottom: 6px;
+    margin-top: 10px;
+    margin-bottom: 4px;
     font-weight: bold;
     color: #2c3e50;
+    font-size: 13px;
 }
 
 .form-container input[type="text"],
 .form-container input[type="number"],
 .form-container select {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #bdc3c7;
     border-radius: 4px;
     box-sizing: border-box;
     font-family: Comic Sans MS, Comic Sans, cursive;
-    font-size: 14px;
+    font-size: 13px;
     transition: border-color 0.2s;
 }
 
@@ -181,19 +188,63 @@ main {
 }
 
 .form-buttons {
-    margin-top: 25px;
+    margin-top: 18px;
     display: flex;
     gap: 10px;
 }
 
 .form-buttons button {
     flex: 1;
-    padding: 10px 20px;
+    padding: 9px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 13px;
     transition: background 0.2s;
+}
+
+/* Горизонтальное расположение полей с чекбоксами */
+.field-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.field-row > div {
+    flex: 1;
+}
+
+.field-row > div label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.field-row > div input,
+.field-row > div select {
+    width: 100%;
+}
+
+.checkbox-right {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 10px 8px;
+    font-weight: normal;
+    white-space: nowrap;
+    height: fit-content;
+}
+
+.checkbox-right input[type="checkbox"] {
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+#relocationLabel {
+    flex: 1;
 }
 
 #formSubmit {

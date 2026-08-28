@@ -15,6 +15,7 @@
             <a href="./vacancies.html">Вакансии</a>
             <a href="./matches.html">Совпадения</a>
             <a href="./ranking.html">Ранжирование</a>
+            <a href="./settings.html">Настройки</a>
         </nav>
     </header>
     <main>
@@ -48,15 +49,33 @@
                     <label>Название</label>
                     <input type="text" id="formTitle" placeholder="Введите название вакансии">
                     
-                    <label>Требуемый опыт (лет)</label>
-                    <input type="number" id="formExperience" placeholder="0">
+                    <div class="field-row">
+                        <div>
+                            <label>Требуемый опыт (лет)</label>
+                            <input type="number" id="formExperience" placeholder="0">
+                        </div>
+                        <label class="checkbox-right">
+                            <input type="checkbox" id="formExperienceMandatory">
+                            Обязателен
+                        </label>
+                    </div>
                     
-                    <label>Требуемое образование</label>
-                    <select type="text" id="formEducation">
-                        <option value="Высшее профильное">Высшее профильное</option>
-                        <option value="Высшее непрофильное">Высшее непрофильное</option>
-                        <option value="Среднее">Среднее</option>
-                    </select>
+                    <div class="field-row">
+                        <div>
+                            <label>Требуемое образование</label>
+                            <select type="text" id="formEducation">
+                                <option value="Высшее профильное">Высшее профильное</option>
+                                <option value="Среднее профильное">Среднее профильное</option>
+                                <option value="Высшее непрофильное">Высшее непрофильное</option>
+                                <option value="Среднее непрофильное">Среднее непрофильное</option>
+                                <option value="Без образования">Без образования</option>
+                            </select>
+                        </div>
+                        <label class="checkbox-right">
+                            <input type="checkbox" id="formEducationMandatory">
+                            Обязательно
+                        </label>
+                    </div>
 
                     
                     <label>Обязательные навыки</label>
@@ -65,13 +84,27 @@
                     <label>Желательные навыки</label>
                     <input type="text" id="formPrefSkills" placeholder="Git, HTML, js">
                     
-                    <label>Зарплата</label>
-                    <input type="number" min="0" max="10000000" id="formSalary" placeholder="50000">
+                    <div class="field-row">
+                        <div>
+                            <label>Зарплата</label>
+                            <input type="number" min="0" max="10000000" id="formSalary" placeholder="50000">
+                        </div>
+                        <label class="checkbox-right">
+                            <input type="checkbox" id="formSalaryMandatory">
+                            Обязательна
+                        </label>
+                    </div>
                     
-                    <label>
-                        <input type="checkbox" id="formRelocation">
-                        Нужен переезд?
-                    </label>
+                    <div class="field-row">
+                        <label id="relocationLabel">
+                            <input type="checkbox" id="formRelocation">
+                            Нужен переезд?
+                        </label>
+                        <label class="checkbox-right">
+                            <input type="checkbox" id="formRelocationMandatory">
+                            Обязателен
+                        </label>
+                    </div>
                     
                     <div class="form-buttons">
                         <button type="button" id="formSubmit">Добавить</button>

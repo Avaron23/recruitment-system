@@ -2,17 +2,34 @@ const API_URL = "http://127.0.0.1:8000"
 const VACANCIES_API = API_URL + "/vacancies/"
 const MATCHES_API = API_URL + "/matches/"
 const CANDIDATES_API = API_URL + "/candidates/"
+const SETTINGS_API = API_URL + "/settings/"
 
 let vacancies = []
 let candidates = []
 let currentMatches = []
 let currentVacancy = null
+let threshold = 70  // Значение по умолчанию
 
 window.addEventListener("DOMContentLoaded", () => {
+    loadSettings()
     loadVacancies()
     loadCandidates()
     setupVacancySelector()
 })
+
+// Загрузить настройки (включая порог)
+async function loadSettings() {
+    try {
+        const response = await fetch(SETTINGS_API)
+        if (response.ok) {
+            const settings = await response.json()
+            threshold = settings.threshold
+        }
+    } catch (error) {
+        console.error("Ошибка загрузки настроек:", error)
+        // Используем значение по умолчанию
+    }
+}
 
 // Загрузить все вакансии
 async function loadVacancies() {
@@ -120,6 +137,10 @@ function renderRankedMatches() {
                 <span class="vacancy-info-label">Требуемый переезд:</span>
                 <span class="vacancy-info-value">${currentVacancy.relocation_required ? '⚠️ Да' : '✅ Нет'}</span>
             </div>
+            <div class="vacancy-info-row">
+                <span class="vacancy-info-label">Минимальный порог ранжирования:</span>
+                <span class="vacancy-info-value"><strong>${threshold}%</strong></span>
+            </div>
         </div>
     `
     
@@ -206,8 +227,8 @@ function openCandidateModal(candidateId) {
     
     const scoreClass = getScoreClass(match ? match.total_score : 0)
     const passStatus = match && match.passed 
-        ? `<div class="pass-status passed">✅ Прошёл пороговый балл (≥70%)</div>`
-        : `<div class="pass-status failed">❌ Не прошёл пороговый балл (&lt;70%)</div>`
+        ? `<div class="pass-status passed">✅ Прошёл пороговый балл (≥${threshold}%)</div>`
+        : `<div class="pass-status failed">❌ Не прошёл пороговый балл (&lt;${threshold}%)</div>`
     
     const content = `
         <div class="modal-content">

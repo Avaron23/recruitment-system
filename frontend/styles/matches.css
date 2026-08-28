@@ -37,10 +37,28 @@ main {
     font-weight: bold;
     font-size: 14px;
     transition: background 0.3s;
+    margin: 3px;
 }
 
 .btn-create-match:hover {
     background: #229954;
+}
+
+.btn-delete-matches {
+    background: #A10900;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.3s;
+    margin: 3px;
+}
+
+.btn-delete-matches:hover {
+    background: #790700;
 }
 
 /* Список матчей */

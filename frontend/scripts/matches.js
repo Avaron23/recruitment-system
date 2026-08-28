@@ -272,3 +272,79 @@ async function deleteMatch(candidateId, vacancyId) {
         console.error(error)
     }
 }
+
+// Удалить все мэтчи
+async function deleteAllMatches() {
+    if (!confirm("Вы уверены, что хотите удалить все мэтчи?")) return
+
+    try {
+        const response = await fetch(`${MATCHES_API}`, {
+            method: "DELETE"
+        })
+
+        if (!response.ok) {
+            alert("Ошибка удаления мэтчей!")
+            return
+        }
+
+        loadMatches()
+        alert("Мэтчи успешно удалены!")
+    } catch (error) {
+        alert("Ошибка удаления мэтчей!")
+        console.error(error)
+    }
+}
+
+// Создать мэтчи по вакансии
+async function createMatchesByVacancy() {
+    const vacancy_id = parseInt(prompt("Введите айди вакансии(от 1 до ...)"))
+    if (isNaN(vacancy_id) || vacancy_id < 1) {
+        alert("Некорректный ID вакансии");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${MATCHES_API}${vacancy_id}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        })
+
+        if (!response.ok) {
+            const error = await response.json()
+                alert("Ошибка: " + (error.detail || "неизвестная ошибка"))
+            return
+        }
+
+        loadMatches()
+        alert("Мэтчи успешно созданы!")
+    } catch (error) {
+        alert("Не удалось создать мэтчи!")
+        console.error(error)
+    }    
+}
+
+// Удалить мэтчи по вакансии
+async function deleteMatchesByVacancy(){
+    const vacancy_id = parseInt(prompt("Введите айди вакансии(от 1 до ...)"))
+    if (isNaN(vacancy_id) || vacancy_id < 1) {
+        alert("Некорректный ID вакансии");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${MATCHES_API}${vacancy_id}`, {
+            method: "DELETE"
+        })
+
+        if (!response.ok) {
+            alert("Ошибка удаления мэтчей!")
+            return
+        }
+
+        loadMatches()
+        alert("Мэтчи успешно удалены!")
+    } catch (error) {
+        alert("Ошибка удаления мэтчей!")
+        console.error(error)
+    }
+}

@@ -42,12 +42,12 @@ function createRow(vacancy){
     tr.innerHTML = `
         <td>${vacancy.id}</td>
         <td>${vacancy.title}</td>
-        <td>${vacancy.required_experience}</td>
-        <td>${vacancy.required_education}</td>
+        <td>${vacancy.required_experience} ${vacancy.is_experience_mandatory ? '*' : ''}</td>
+        <td>${vacancy.required_education} ${vacancy.is_education_mandatory ? '*' : ''}</td>
         <td>${vacancy.required_skills}</td>
         <td>${vacancy.preferred_skills}</td>
-        <td>${vacancy.salary_offer}</td>
-        <td>${vacancy.relocation_required ? 'Да' : 'Нет'}</td>
+        <td>${vacancy.salary_offer} ${vacancy.is_salary_mandatory ? '*' : ''}</td>
+        <td>${vacancy.relocation_required ? 'Да' : 'Нет'} ${vacancy.is_relocation_mandatory ? '*' : ''}</td>
         <td><button class="edit-btn">Изменить</button></td>
         <td><button class="delete-btn">Удалить</button></td>
     `
@@ -81,6 +81,12 @@ function editVacancy(vacancy) {
         : vacancy.preferred_skills
     document.getElementById('formSalary').value = vacancy.salary_offer
     document.getElementById('formRelocation').checked = vacancy.relocation_required
+    
+    // Новые флаги обязательности
+    document.getElementById('formExperienceMandatory').checked = vacancy.is_experience_mandatory || false
+    document.getElementById('formEducationMandatory').checked = vacancy.is_education_mandatory || false
+    document.getElementById('formSalaryMandatory').checked = vacancy.is_salary_mandatory || false
+    document.getElementById('formRelocationMandatory').checked = vacancy.is_relocation_mandatory || false
     
     // Меняем текст кнопки отправки
     document.getElementById('formSubmit').textContent = 'Сохранить изменения'
@@ -154,6 +160,10 @@ function clearForm() {
     document.getElementById('formPrefSkills').value = ''
     document.getElementById('formSalary').value = ''
     document.getElementById('formRelocation').checked = false
+    document.getElementById('formExperienceMandatory').checked = false
+    document.getElementById('formEducationMandatory').checked = false
+    document.getElementById('formSalaryMandatory').checked = false
+    document.getElementById('formRelocationMandatory').checked = false
 }
 
 // Настроить обработчики формы 
@@ -181,7 +191,11 @@ function setupForm(){
             required_skills: skillsArray,
             preferred_skills: prefSkillsArray,
             salary_offer: parseInt(document.getElementById('formSalary').value) || 0,
-            relocation_required: document.getElementById('formRelocation').checked
+            relocation_required: document.getElementById('formRelocation').checked,
+            is_experience_mandatory: document.getElementById('formExperienceMandatory').checked,
+            is_education_mandatory: document.getElementById('formEducationMandatory').checked,
+            is_salary_mandatory: document.getElementById('formSalaryMandatory').checked,
+            is_relocation_mandatory: document.getElementById('formRelocationMandatory').checked
         }
 
         // Валидация

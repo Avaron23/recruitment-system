@@ -1,0 +1,283 @@
+main {
+    display: block;
+    margin: 40px;
+    text-align: center;
+    height: fit-content;
+    padding-bottom: 40px;
+}
+
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.settings-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 28px;
+}
+
+.settings-card {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.settings-card h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 18px;
+    border-bottom: 2px solid #34495e;
+    padding-bottom: 10px;
+}
+
+.info-text {
+    color: #7f8c8d;
+    font-size: 13px;
+    margin: 10px 0 20px;
+    font-style: italic;
+}
+
+/* Сетка весов */
+.weights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.weight-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+}
+
+.weight-item label {
+    display: block;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.weight-item input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    transition: border-color 0.2s;
+}
+
+.weight-item input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.weight-value {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Сумма весов */
+.sum-info {
+    background: #ecf0f1;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.sum-info p {
+    margin: 0;
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.sum-value {
+    font-size: 16px;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.sum-value.warning {
+    color: #f39c12;
+}
+
+.sum-value.error {
+    color: #e74c3c;
+}
+
+/* Порог ранжирования */
+.threshold-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #27ae60;
+}
+
+.threshold-item label {
+    display: block;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.threshold-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.threshold-input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.threshold-input-group input:focus {
+    outline: none;
+    border-color: #27ae60;
+    box-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
+}
+
+.threshold-value {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    min-width: 50px;
+    text-align: center;
+}
+
+/* Кнопки действий */
+.actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-save,
+.btn-reset {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-save {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-save:hover {
+    background: #229954;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.btn-reset {
+    background: #3498db;
+    color: white;
+}
+
+.btn-reset:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+/* Статус сообщение */
+.status-message {
+    margin-top: 20px;
+    padding: 12px 15px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+    animation: slideIn 0.3s ease-out;
+}
+
+.status-message.success {
+    background: #d5f4e6;
+    color: #27ae60;
+    display: block;
+    border: 1px solid #27ae60;
+}
+
+.status-message.error {
+    background: #fadbd8;
+    color: #e74c3c;
+    display: block;
+    border: 1px solid #e74c3c;
+}
+
+.status-message.info {
+    background: #d6eaf8;
+    color: #3498db;
+    display: block;
+    border: 1px solid #3498db;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .settings-container {
+        padding: 0 10px;
+    }
+
+    .settings-card {
+        padding: 15px;
+    }
+
+    .weights-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .btn-save,
+    .btn-reset {
+        width: 100%;
+    }
+}

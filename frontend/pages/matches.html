@@ -15,13 +15,17 @@
             <a href="./vacancies.html">Вакансии</a>
             <a href="./matches.html">Совпадения</a>
             <a href="./ranking.html">Ранжирование</a>
+            <a href="./settings.html">Настройки</a>
         </nav>
     </header>
     <main>
         <div class="matches-container">
             <div class="matches-header">
                 <h1>Совпадения (Мэтчи)</h1>
-                <button class="btn-create-match" onclick="openMatchForm()">+ Создать матч</button>
+                <button class="btn-create-match" onclick="openMatchForm()">+ Создать мэтч</button>
+                <button class="btn-create-match" onclick="createMatchesByVacancy()">+ Создать мэтчи по вакансии</button>
+                <button class="btn-delete-matches" onclick="deleteAllMatches()">- Удалить все мэтчи</button>
+                <button class="btn-delete-matches" onclick="deleteMatchesByVacancy()">- Удалить мэтчи по вакансии</button>
             </div>
 
             <div class="matches-list" id="matchesList">
