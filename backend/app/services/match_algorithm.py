@@ -59,31 +59,30 @@ class MatchAlgorithm:
             exp_score = min(candidate.experience / vacancy.required_experience, 1.0)
             total_score += exp_score * settings.w_experience
 
-        # 2. Обязательные навыки (default = 0.25) settings.w_skills_required
+        # 2. Обязательные навыки проверка (оставляем как есть)
         matched_required = set()
         if vacancy.required_skills:
             matched_required = set(candidate.skills) & set(vacancy.required_skills)
-            # Если не все обязательные навыки есть — сразу не прошёл
             if len(matched_required) < len(vacancy.required_skills):
                 return {
-                    "total_score": 0,
+                    "total_score": 0, 
                     "matched_skills": []
                 }
-            total_score += settings.w_skills_required
-        else:
-            total_score += settings.w_skills_required
 
-        # 3. Желательные навыки (default = 0.10) settings.w_skills_preferred
-        matched_preferred = set()
-        if vacancy.preferred_skills:
-            matched_preferred = set(candidate.skills) & set(vacancy.preferred_skills)
-            preferred_score = len(matched_preferred) / len(vacancy.preferred_skills)
-            total_score += preferred_score * settings.w_skills_preferred
-        else:
-            total_score += settings.w_skills_preferred
+        # 3. Навыки – общий критерий
+        required_set = set(vacancy.required_skills or [])
+        preferred_set = set(vacancy.preferred_skills or [])
+        all_required_skills = required_set | preferred_set   
 
-        # Все совпавшие навыки
-        matched_skills = matched_required | matched_preferred
+        if all_required_skills:
+            matched_skills = set(candidate.skills or []) & all_required_skills
+            skill_score = len(matched_skills) / len(all_required_skills)
+        else:
+            skill_score = 1.0
+            matched_skills = set()
+
+        total_score += skill_score * settings.w_skills_required   # общий вес = 0.35
+
 
         # 4. Образование (default = 0.15) settings.w_education
         if edu_map[vacancy.required_education] <= edu_map[candidate.education]:
