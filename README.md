@@ -76,10 +76,19 @@ DATABASE_URL=postgresql+asyncpg://user:password@localhost:5432/recruitment_db
 ```bash
 cd backend
 uv sync
+```
+
+#### Инициализация базы данных
+```bash
+python -m app.db.init_db
+```
+
+#### Запуск сервера
+```bash
 uv run uvicorn app.main:app --reload
 ```
 
-Таблицы создаются автоматически при первом запуске (если их ещё нет). API будет доступен на `http://localhost:8000`, документация Swagger — на `http://localhost:8000/docs`.
+API будет доступен на `http://localhost:8000`, документация Swagger — на `http://localhost:8000/docs`.
 
 ### 3. Frontend
 
